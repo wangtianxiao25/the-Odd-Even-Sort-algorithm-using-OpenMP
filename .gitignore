@@ -1,0 +1,5 @@
+.vscode
+
+omp_OEsort0
+omp_OEsort_parallel_for
+omp_OEsort_for
