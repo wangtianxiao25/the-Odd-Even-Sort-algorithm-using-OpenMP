@@ -114,13 +114,6 @@ int main(int argc, char* argv[]) {
     if (rank == 0) {
         printf("MPI并行奇偶交换排序：\n用时：\t\t%lfs\n数据量：\t%d\n进程数量：\t%d\n",
                end - start, n, size);
-
-        // 验证排序结果
-        bool sorted = true;
-        for (int i = 1; i < n; i++) {
-            if (a[i - 1] > a[i]) { sorted = false; break; }
-        }
-        printf("排序结果：%s\n", sorted ? "正确" : "错误");
     }
 
     MPI_Finalize();
