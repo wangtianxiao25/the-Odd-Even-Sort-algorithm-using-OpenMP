@@ -10,6 +10,8 @@ This repository contains several example programs implementing the Odd-Even Sort
 
 - `omp_OEsort_parallel_for.cpp`: A parallel implementation using `#pragma omp parallel for` to parallelize the inner loop directly for each phase, creating/reusing a thread pool for each phase to execute the iteration distribution.
 
+- **`mpi_OEsort.cpp`**: A distributed-memory parallel implementation using MPI. The array is divided among processes using `MPI_Scatterv`, each process performs local odd-even exchanges, and boundary elements are exchanged between neighboring processes using `MPI_Sendrecv`. Finally, results are gathered with `MPI_Gatherv`. The program measures execution time with `MPI_Wtime()` and prints data size, process count, and timing.
+
 **Code Features**
 
 - Simple helper functions `swap` and `arrayinit` are used.
@@ -24,10 +26,14 @@ This repository contains several example programs implementing the Odd-Even Sort
     `g++ omp_OEsort_for.cpp -fopenmp -o omp_OEsort_for`
 
     `g++ omp_OEsort_parallel_for.cpp -fopenmp -o omp_OEsort_parallel_for`
+
+    `mpic++ ./mpi_OEsort.cpp -o ./mpi_OEsort`
+
 - Example execution:
     ./omp_OEsort0 1 100000
     ./omp_OEsort_for 4 100000
     ./omp_OEsort_parallel_for 4 100000
+    mpiexec -np 10 ./mpi_OEsort 10000
 
     The first argument specifies the number of threads (can be any value or 1 for the serial program), and the second argument specifies the array size `n`.
 
@@ -45,12 +51,13 @@ This repository contains several example programs implementing the Odd-Even Sort
 
 # 中文简介
 
-本仓库包含若干用 OpenMP 实现的 "奇偶交换（Odd-Even）排序" 示例程序，便于比较不同并行化方式的性能与实现差异。
+本仓库包含若干用 OpenMP 和 MPI 实现的 "奇偶交换（Odd-Even）排序" 示例程序，便于比较不同并行化方式的性能与实现差异。
 
 **文件说明**
 - `omp_OEsort0.cpp`：串行版本的奇偶交换排序，用于基准比较。程序按降序初始化数组，再执行 n 次相位交换并计时。
 - `omp_OEsort_for.cpp`：使用 `#pragma omp parallel` + `#pragma omp for` 的并行实现。外层循环由所有线程并行参与，内层使用 `omp for` 划分迭代。
 - `omp_OEsort_parallel_for.cpp`：使用 `#pragma omp parallel for` 在每个相位直接并行化内层循环，每个相位创建/重用线程池并执行迭代划分。
+- `mpi_OEsort.cpp`：使用 MPI 的分布式内存并行实现。主进程初始化数组，利用 MPI_Scatterv 将数据分配给各进程，每个进程执行局部奇偶交换，并通过 MPI_Sendrecv 与相邻进程交换边界元素，最后用 MPI_Gatherv 收集结果。程序使用 MPI_Wtime() 计时并输出数据规模、进程数和耗时。
 
 **代码特点**
 - 使用简单的 `swap` 与 `arrayinit` 辅助函数。
@@ -66,12 +73,15 @@ This repository contains several example programs implementing the Odd-Even Sort
 
 	`g++ omp_OEsort_parallel_for.cpp -fopenmp -o omp_OEsort_parallel_for`
 
+    `mpic++ ./mpi_OEsort.cpp -o ./mpi_OEsort`
+
 
 - 运行示例：
 
 	./omp_OEsort0 1 100000
 	./omp_OEsort_for 4 100000
 	./omp_OEsort_parallel_for 4 100000
+    mpiexec -np 10 ./mpi_OEsort 10000
 
 	第一个参数：线程数（串行程序可传任意值或 1），第二个参数：数组大小 `n`。
 
