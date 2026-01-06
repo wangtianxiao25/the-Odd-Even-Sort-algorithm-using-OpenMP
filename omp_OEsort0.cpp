@@ -33,7 +33,7 @@ int main(int argc, char* argv[]) {
                 if (a[i - 1] > a[i]) swap(a[i - 1], a[i]);
             }
         } else {
-            for (i = 1; i < n; i += 2) {
+            for (i = 1; i < n - 1; i += 2) {
                 if (a[i + 1] > a[i]) swap(a[i + 1], a[i]);
             }
         }
