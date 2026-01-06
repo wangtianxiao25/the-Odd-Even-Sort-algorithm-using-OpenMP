@@ -1,6 +1,6 @@
 # English Introduction
 
-This repository contains several example programs implementing the Odd-Even Sort algorithm using OpenMP, allowing for performance and implementation comparisons of different parallelization approaches.
+This repository contains several example programs implementing the Odd-Even Sort algorithm using OpenMP and MPI, allowing for performance and implementation comparisons of different parallelization approaches.
 
 **File Descriptions**
 
