@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
         } else {
 #           pragma omp parallel for num_threads(thread_num) \
                 default(none) shared(a, n) private(i)
-            for (i = 1; i < n; i += 2) {
+            for (i = 1; i < n - 1; i += 2) {
                 if (a[i + 1] > a[i]) swap(a[i + 1], a[i]);
             }
         }
